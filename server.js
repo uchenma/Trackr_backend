@@ -5,6 +5,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const routes = require("./routes/index")
 
 const app = express();
 const server = require("http").Server(app);
@@ -25,3 +26,10 @@ mongoose.connection.on("open", () => console.log(`Connected to MongoDB!`));
 mongoose.connection.on("error", function(err) {
   console.log("Mongoose default connection error: " + err);
 });
+
+// get routes
+app.use(routes);
+
+server.listen(4000, function() {
+    console.log("server is running on port 4000");
+  });
