@@ -27,9 +27,13 @@ mongoose.connection.on("error", function(err) {
   console.log("Mongoose default connection error: " + err);
 });
 
+app.get("/", (req, res)=> {
+  res.send("hello heroku")
+})
+
 // get routes
 app.use(routes);
 
-server.listen(4000, function() {
+server.listen(process.env.PORT||4000, function() {
     console.log("server is running on port 4000");
   });
