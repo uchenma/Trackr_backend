@@ -34,6 +34,6 @@ app.get("/", (req, res)=> {
 // get routes
 app.use(routes);
 
-server.listen(4000, function() {
+server.listen(process.env.PORT||4000, function() {
     console.log("server is running on port 4000");
   });
