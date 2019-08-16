@@ -35,7 +35,7 @@ const REQUIRED_ENVS = ["MONGODB_URI"];
 REQUIRED_ENVS.forEach(function(el) {
   if (!process.env[el]) throw new Error("Missing required env var " + el);
 });
-mongoose.connect(process.env.MONGODB_URI, options);
+mongoose.connect("mongodb+srv://bsitenga:letsgocrazy@ourcluster-rri0i.mongodb.net/WebTracker?retryWrites=true&w=majority", options);
 mongoose.connection.on("open", () => console.log(`Connected to MongoDB!`));
 mongoose.connection.on("error", function(err) {
   console.log("Mongoose default connection error: " + err);
