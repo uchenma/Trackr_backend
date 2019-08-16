@@ -22,5 +22,20 @@ router.post("/createUser", async (req, res) => {
     res.json({ success: false, error: e });
   }
 });
+router.post("/login", async (req, res) => {
+  try{
+    User.findOne({userId: req.body.userId}, async (err, resp) => {
+      if (resp) {
+        res.json({ success: true, user: resp });
+      } else{
+        res.json({success: false, error: "user doesn't exist"})
+      }
+    })
+  } catch (e) {
+    console.log("Error finding user", e);
+    res.json({ success: false, error: e });
+  }
+})
+
 
 module.exports = router;
