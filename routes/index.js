@@ -44,6 +44,8 @@ router.get("/allStats", async (req, res) => {
     res.json({ success: false, error: e });
   }
 })
-
+router.post("/test", async (req, res) => {
+  res.send(`Posting to test ${req.body.userId}`)
+});
 
 module.exports = router;
