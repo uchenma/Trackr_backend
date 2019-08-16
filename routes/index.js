@@ -36,6 +36,14 @@ router.post("/login", async (req, res) => {
     res.json({ success: false, error: e });
   }
 })
+router.get("/allStats", async (req, res) => {
+  try {
+  
+  } catch (e) {
+    console.log("Error loading stats user", e);
+    res.json({ success: false, error: e });
+  }
+})
 
 
 module.exports = router;
