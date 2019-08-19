@@ -64,9 +64,9 @@ router.post("/updateStats", async (req, res)=> {
   }
 })
 
-router.get("/allStats", async (req, res) => {
+router.get("/allStats/:userId", async (req, res) => {
   try {
-    Stats.find({userId: req.body.userId})
+    Stats.find({userId: req.params.userId})
     .sort({time: -1})
     .exec(async (err, resp) => {
       if (resp) {
