@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/updateStats", async (req, res)=> {
   try{
-    Stats.findOne({userId: req.body.userId, url: req.body.url}, async (err, resp) => {
+    Stats.findOne({userId: req.body.userId, url: req.body.url, date: req.body.date}, async (err, resp) => {
       if (resp){
         resp.time = resp.time + Number(req.body.time)
         await resp.save()
@@ -52,7 +52,8 @@ router.post("/updateStats", async (req, res)=> {
         const stats = new Stats ({
           userId : req.body.userId,
           url: req.body.url,
-          time: Number(req.body.time)
+          time: Number(req.body.time),
+          date: req.body.date
         })
         await stats.save()
         res.json({success: true, stats: stats})
@@ -64,9 +65,17 @@ router.post("/updateStats", async (req, res)=> {
   }
 })
 
-router.get("/allStats", async (req, res) => {
+router.get("/allStats/:userId", async (req, res) => {
   try {
-  
+    Stats.find({userId: req.params.userId})
+    .sort({date: 1, time: -1})
+    .exec(async (err, resp) => {
+      if (resp.length) {
+        res.json({success: true, stats: resp})
+      } else {
+        res.json({success: false, error: "user has no stats"})
+      }
+    })
   } catch (e) {
     console.log("Error loading stats user", e);
     res.json({ success: false, error: e });
