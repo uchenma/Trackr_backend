@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const { User } = require("../models");
 
 router.post("/createUser", async (req, res) => {
+  console.log("in the create user route")
   try {
+    console.log("console log is my best friend, inside try")
     User.findOne({userId: req.body.userId}, async (err, resp) => {
       if (resp) {
         res.json({success: false, error: "user already exists"})
@@ -21,6 +23,7 @@ router.post("/createUser", async (req, res) => {
     console.log("Error saving user", e);
     res.json({ success: false, error: e });
   }
+  console.log("console log after catch")
 });
 
 router.post("/login", async (req, res) => {
