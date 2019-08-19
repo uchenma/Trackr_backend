@@ -70,7 +70,7 @@ router.get("/allStats/:userId", async (req, res) => {
     Stats.find({userId: req.params.userId})
     .sort({date: 1, time: -1})
     .exec(async (err, resp) => {
-      if (resp) {
+      if (resp.length) {
         res.json({success: true, stats: resp})
       } else {
         res.json({success: false, error: "user has no stats"})
