@@ -66,7 +66,11 @@ router.post("/updateStats", async (req, res)=> {
 
 router.get("/allStats", async (req, res) => {
   try {
-  
+    Stats.find({userId: req.body.userId})
+    .sort({time: -1})
+    .exec(async (err, resp) => {
+      res.json({success: true, stats: resp})
+    })
   } catch (e) {
     console.log("Error loading stats user", e);
     res.json({ success: false, error: e });
