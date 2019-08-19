@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const { User } = require("../models");
+const { User, Stats } = require("../models");
 
 router.post("/createUser", async (req, res) => {
   try {
     User.findOne({userId: req.body.userId}, async (err, resp) => {
+      console.log("inside findOne", resp)
       if (resp) {
         res.json({success: false, error: "user already exists"})
       } else {
@@ -14,14 +15,17 @@ router.post("/createUser", async (req, res) => {
           userId: req.body.userId
         });
         await user.save();
-        res.json({ success: true, error: "" });
+        res.json({ success: true});
       }
+      console.log("after if statements")
     })
   } catch (e) {
     console.log("Error saving user", e);
     res.json({ success: false, error: e });
   }
+  console.log("console log after catch")
 });
+
 router.post("/login", async (req, res) => {
   try{
     User.findOne({userId: req.body.userId}, async (err, resp) => {
@@ -36,6 +40,30 @@ router.post("/login", async (req, res) => {
     res.json({ success: false, error: e });
   }
 })
+
+router.post("/updateStats", async (req, res)=> {
+  try{
+    Stats.findOne({userId: req.body.userId, url: req.body.url}, async (err, resp) => {
+      if (resp){
+        resp.time = resp.time + Number(req.body.time)
+        await resp.save()
+        res.json({success: true, stats: resp})
+      } else {
+        const stats = new Stats ({
+          userId : req.body.userId,
+          url: req.body.url,
+          time: Number(req.body.time)
+        })
+        await stats.save()
+        res.json({success: true, stats: stats})
+      }
+    })
+  } catch (e) {
+    console.log("Error updating stats user", e);
+    res.json({ success: false, error: e });
+  }
+})
+
 router.get("/allStats", async (req, res) => {
   try {
   
@@ -44,8 +72,5 @@ router.get("/allStats", async (req, res) => {
     res.json({ success: false, error: e });
   }
 })
-router.post("/test", async (req, res) => {
-  res.send(`Posting to test ${req.body.userId}`)
-});
 
 module.exports = router;
