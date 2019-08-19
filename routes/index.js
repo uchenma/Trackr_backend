@@ -45,15 +45,14 @@ router.post("/updateStats", async (req, res)=> {
   try{
     Stats.findOne({userId: req.body.userId, url: req.body.url}, async (err, resp) => {
       if (resp){
-        resp.time = Number(resp.time) + Number(req.body.time)
-        resp.time.toString();
+        resp.time = (Number(resp.time) + Number(req.body.time)).toString()
         await resp.save()
         res.json({success: true, stats: resp})
       } else {
         const stats = new Stats ({
           userId : req.body.userId,
           url: req.body.url,
-          time: Number(req.body.time)
+          time: req.body.time
         })
         await stats.save()
         res.json({success: true, stats: stats})
