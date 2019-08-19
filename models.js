@@ -25,6 +25,10 @@ const statsSchema = new Schema({
   time: {
     type: Number,
     required: true
+  },
+  date: {
+    type: String,
+    required: true
   }
 });
 
