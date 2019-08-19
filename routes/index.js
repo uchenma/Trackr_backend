@@ -55,7 +55,7 @@ router.post("/updateStats", async (req, res)=> {
           time: req.body.time
         })
         await stats.save()
-        res.json({success: true, stats: resp})
+        res.json({success: true, stats: stats})
       }
     })
   } catch (e) {
