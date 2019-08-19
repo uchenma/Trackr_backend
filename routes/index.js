@@ -69,7 +69,11 @@ router.get("/allStats", async (req, res) => {
     Stats.find({userId: req.body.userId})
     .sort({time: -1})
     .exec(async (err, resp) => {
-      res.json({success: true, stats: resp})
+      if (resp) {
+        res.json({success: true, stats: resp})
+      } else {
+        res.json({success: false, error: "user has no stats"})
+      }
     })
   } catch (e) {
     console.log("Error loading stats user", e);
