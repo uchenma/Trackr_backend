@@ -85,6 +85,8 @@ router.get("/allStats/:userId", async (req, res) => {
 router.get("/todayStats/:userId", async (req, res) => {
   try {
     let today = new Date(new Date().toLocaleDateString());
+    today = today.toString();
+    console.log(today)
     Stats.find({userId: req.params.userId, date: today})
     .sort({time: -1})
     .exec(async (err, resp) => {
