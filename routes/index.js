@@ -103,4 +103,27 @@ router.get("/todayStats/:userId", async (req, res) => {
   }
 })
 
+router.get("/yesterdayStats/:userId", async (req, res) => {
+  try {
+    let today = new Date(new Date().toLocaleDateString());
+    let yesterday = new Date();
+    yesterday.setDate(today.getDate()-1);
+    yesterday = yesterday.toString().split(' ').slice(1,4).join(' ');
+    Stats.find({userId: req.params.userId})
+    .sort({time: -1})
+    .exec(async (err, resp) => {
+      if (resp.length) {
+        resp = resp.filter((item)=> yesterday == item.date.toString().split(' ').slice(1,4).join(' '))
+        res.json({success: true, stats: resp})
+      } else {
+        res.json({success: false, error: "user has no stats for yesterday"})
+      }
+    })
+  } 
+  catch (e) {
+    console.log("Error loading today stats for user", e);
+    res.json({ success: false, error: e });
+  }
+})
+
 module.exports = router;
