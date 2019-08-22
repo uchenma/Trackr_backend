@@ -71,8 +71,7 @@ router.get("/allStats/:userId", async (req, res) => {
     .sort({date: 1, time: -1})
     .exec(async (err, resp) => {
       if (resp.length) {
-        resp = resp.sort((a,b)=> new Date(a.date) - new Date(b.date))
-        console.log(resp)
+        resp = resp.sort((a,b)=> new Date(b.date) - new Date(a.date))
         res.json({success: true, stats: resp})
       } else {
         res.json({success: false, error: "user has no stats"})
